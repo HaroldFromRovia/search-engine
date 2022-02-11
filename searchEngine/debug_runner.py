@@ -1,2 +1,6 @@
+import sys
+
 from scrapy import cmdline
-cmdline.execute("scrapy runspider scrapper.py".split())
+
+if __name__ == '__main__':
+    cmdline.execute(sys.argv[1:])
