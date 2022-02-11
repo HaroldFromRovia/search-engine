@@ -3,9 +3,9 @@ import time
 
 import scrapy
 
-PAGES_COUNT = 150
+PAGES_COUNT = 5
 BASE_ITERATION = 30000
-PATH = './resources'
+PATH = '../resources'
 BASE_URL = 'https://stackoverflow.com/questions/{}'
 
 
@@ -17,7 +17,6 @@ def init_urls():
 
 
 class Spider(scrapy.Spider):
-    start_urls = init_urls()
     name = "crawler"
 
     def start_requests(self):
