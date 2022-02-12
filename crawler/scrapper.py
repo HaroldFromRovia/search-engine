@@ -10,7 +10,7 @@ REQUEST_DELAY = 1
 BASE_URL = 'https://stackoverflow.com/questions/{}'
 DEFAULT_ENCODING = "UTF-8"
 
-PAGES_COUNT = 1
+PAGES_COUNT = 100
 BASE_ITERATION = 30000
 
 RESOURCE_PATH = '../resources'
