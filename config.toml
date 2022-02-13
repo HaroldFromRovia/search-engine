@@ -1,4 +1,4 @@
-pages_count = 2
+pages_count = 100
 base_iteration = 30000
 # In seconds
 request_delay = 2
