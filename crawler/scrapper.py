@@ -11,7 +11,7 @@ BASE_ITERATION = 30000
 # In seconds
 REQUEST_DELAY = 1
 RESOURCE_PATH = '../resources'
-PAGES_PATH = os.path.join(RESOURCE_PATH, 'html')
+PAGES_PATH = os.path.join(RESOURCE_PATH, 'pages')
 INDEX_FILE = os.path.join(RESOURCE_PATH, 'index.txt')
 BASE_URL = 'https://stackoverflow.com/questions/{}'
 
