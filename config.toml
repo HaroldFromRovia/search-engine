@@ -1,0 +1,6 @@
+pages_count = 100
+base_iteration = 30000
+# In seconds
+request_delay = 2
+resource_path = '../resources'
+base_url = 'https://stackoverflow.com/questions/{}'

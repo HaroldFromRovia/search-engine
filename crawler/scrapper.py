@@ -6,21 +6,11 @@ import time
 
 from bs4 import BeautifulSoup
 
-PAGES_COUNT = 100
-BASE_ITERATION = 30000
-# In seconds
-REQUEST_DELAY = 2
-RESOURCE_PATH = '../resources'
-PAGES_PATH = os.path.join(RESOURCE_PATH, 'pages')
-INDEX_FILE = os.path.join(RESOURCE_PATH, 'index.txt')
-BASE_URL = 'https://stackoverflow.com/questions/{}'
+from core import utils
+from core.settings import settings
 
-
-def init_folders():
-    if not os.path.exists(PAGES_PATH):
-        os.makedirs(PAGES_PATH, exist_ok=True)
-    if not os.path.isfile(INDEX_FILE):
-        with open(INDEX_FILE, 'w'): pass
+PAGES_PATH: str = os.path.join(settings.RESOURCE_PATH, 'pages')
+INDEX_FILE: str = os.path.join(settings.RESOURCE_PATH, 'index.txt')
 
 
 def minify(response):
@@ -53,22 +43,23 @@ def extract(body):
 
 page_counter = 0
 if __name__ == '__main__':
-    init_folders()
+    utils.init_folders(PAGES_PATH)
+    utils.touch_file(INDEX_FILE)
 
     with open(INDEX_FILE, 'w') as file:
         for i in range(1000):
-            response = requests.get(BASE_URL.format(BASE_ITERATION + i), allow_redirects=True)
+            response = requests.get(settings.BASE_URL.format(settings.BASE_ITERATION + i), allow_redirects=True)
 
             if response.status_code == 200:
                 minified = minify(response)
                 extracted = ' '.join(extract(minified))
 
-                open(os.path.join(PAGES_PATH, '{}.txt'.format(i)), 'w', encoding="utf-8").write(extracted)
+                open(os.path.join(PAGES_PATH, '{}.txt'.format(i)), 'w', encoding="utf-8").write(extracted.strip())
                 file.write('{id}.txt {url}\n'.format(id=i, url=response.url))
                 print(page_counter)
                 page_counter += 1
             else:
                 print('Request {url} failed with {code} code'.format(code=response.status_code, url=response.url))
-            time.sleep(REQUEST_DELAY)
-            if page_counter >= PAGES_COUNT:
+            time.sleep(settings.REQUEST_DELAY)
+            if page_counter >= settings.PAGES_COUNT:
                 break
