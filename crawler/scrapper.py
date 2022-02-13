@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 PAGES_COUNT = 100
 BASE_ITERATION = 30000
 # In seconds
-REQUEST_DELAY = 1
+REQUEST_DELAY = 2
 RESOURCE_PATH = '../resources'
 PAGES_PATH = os.path.join(RESOURCE_PATH, 'pages')
 INDEX_FILE = os.path.join(RESOURCE_PATH, 'index.txt')
@@ -63,8 +63,9 @@ if __name__ == '__main__':
                 minified = minify(response)
                 extracted = ' '.join(extract(minified))
 
-                open(os.path.join(PAGES_PATH, '{}.txt'.format(i)), 'w').write(extracted)
+                open(os.path.join(PAGES_PATH, '{}.txt'.format(i)), 'w', encoding="utf-8").write(extracted)
                 file.write('{id}.txt {url}\n'.format(id=i, url=response.url))
+                print(page_counter)
                 page_counter += 1
             else:
                 print('Request {url} failed with {code} code'.format(code=response.status_code, url=response.url))
