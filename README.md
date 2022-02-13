@@ -34,6 +34,14 @@
 ### Задача 2   
 Пакет *semantic*
 ```
-cd crawler
+cd semantic
 python tokenaizer.py
+```
+### Задача 3     
+Пакет *semantic*
+Первый запрос идет долго (привратности питона судя по всему). Первый скрипт создает индекс файл, второй нужен для поиска.   
+```
+cd semantic
+python index.py
+python engine.py
 ```
