@@ -1,5 +1,6 @@
 # search-engine
-## Статус сдачи 
+
+## Статус сдачи
 
 Принята преподавателем | Сделана, но не проверена | Не сделана
 ------------- | ------------- | --------------
@@ -9,11 +10,23 @@
 |---|---|
 |Загрузка страниц| :black_square_button:  |
 
-## Prerequisites 
+## Prerequisites
 
 *Python 3.7 и выше
 
-### Задача 1 
-  `pip install -r requirements.txt`  
-  `cd searchEngine`  
-  `scrapy runspider scrapper.py`
+### Задача 1
+
+*Сохраняются не сами html страницы, а необходимое нам содержимое:*
+
+* Заголовок вопроса
+* Сам вопрос
+* Тэги вопроса
+* Ответы на вопрос
+* Комментарии к ответам и вопросу
+
+  ```
+  pip install -r requirements.txt
+  cd crawler
+  python scrapper.py
+  ```
+ 
