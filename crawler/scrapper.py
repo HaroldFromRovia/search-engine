@@ -6,7 +6,7 @@ import time
 
 from bs4 import BeautifulSoup
 
-PAGES_COUNT = 1
+PAGES_COUNT = 100
 BASE_ITERATION = 30000
 # In seconds
 REQUEST_DELAY = 1
