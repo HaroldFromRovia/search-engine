@@ -8,4 +8,9 @@ def init_folders(path):
 
 def touch_file(path):
     if not os.path.isfile(path):
-        with open(path, 'w'): pass
+        with open(path, 'w'):
+            pass
+    else:
+        os.remove(path)
+        with open(path, 'w'):
+            pass
