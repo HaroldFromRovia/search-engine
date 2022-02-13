@@ -35,7 +35,7 @@
 Пакет *semantic*
 ```
 cd semantic
-python tokenaizer.py
+python tokenizer.py
 ```
 ### Задача 3     
 Пакет *semantic*   
