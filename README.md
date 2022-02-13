@@ -14,6 +14,6 @@
 *Python 3.7 и выше
 
 ### Задача 1 
-  `pip install -r requirements.txt`  
-  `cd searchEngine`  
-  `scrapy runspider scrapper.py`
+  `pip install -r requirements.txt`
+  `cd crawler`
+  `python scrapper.py`
