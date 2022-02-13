@@ -17,8 +17,8 @@
 * `pip install -r requirements.txt`
 
 ### Задача 1
-
-*Сохраняются не сами html страницы, а необходимое нам содержимое:*
+Пакет *crawler*   
+Сохраняются не сами html страницы, а необходимое нам содержимое:
 
 * Заголовок вопроса
 * Сам вопрос
@@ -30,4 +30,9 @@
   cd crawler
   python scrapper.py
   ```
- 
+### Задача 2   
+Пакет *semantic*
+```
+cd crawler
+python tokenaizer.py
+```
