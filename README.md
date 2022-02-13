@@ -13,6 +13,8 @@
 ## Prerequisites
 
 *Python 3.7 и выше
+*Установленный pip
+*pip install -r requirements.txt
 
 ### Задача 1
 
@@ -25,7 +27,6 @@
 * Комментарии к ответам и вопросу
 
   ```
-  pip install -r requirements.txt
   cd crawler
   python scrapper.py
   ```
