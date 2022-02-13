@@ -8,7 +8,8 @@
 
 | Задача | Статус |
 |---|---|
-|Загрузка страниц| :black_square_button:  |
+|Задание 1| :black_square_button:  |
+|Задание 2| :black_square_button:  |
 
 ## Prerequisites
 * Python 3.7 и выше  
