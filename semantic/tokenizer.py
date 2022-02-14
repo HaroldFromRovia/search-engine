@@ -2,6 +2,7 @@ import os.path
 
 import nltk
 from nltk import WordNetLemmatizer
+from nltk.corpus import stopwords
 
 from core import utils
 from core.settings import settings
@@ -20,25 +21,15 @@ def scan_nltk_packages():
             nltk.download(package.split('/')[1])
 
 
-def tokenize():
+def tokenize(text):
     tokens = set()
+    stop_words = set(stopwords.words('english'))
 
-    for page in os.listdir(scrapper.PAGES_PATH):
-        with open(os.path.join(scrapper.PAGES_PATH, page)) as file:
-            for line in file:
-                tokens.update(nltk.word_tokenize(line))
-    return set([token.lower() for token in tokens if token.isalpha()])
+    tokens.update(nltk.word_tokenize(text))
+    return set([token.lower() for token in tokens if token.isalpha()]) - stop_words
 
 
-if __name__ == '__main__':
-    utils.touch_file(TOKENS_PATH)
-    utils.touch_file(LEMMAS_PATH)
-    scan_nltk_packages()
-    tokens = tokenize()
-
-    with open(TOKENS_PATH, mode='wt', encoding='utf-8') as file:
-        file.write('\n'.join(tokens))
-
+def lemmatize(tokens):
     lemmatizer = WordNetLemmatizer()
     lemm_token_map = {}
     for token in tokens:
@@ -48,7 +39,24 @@ if __name__ == '__main__':
         mapped_tokens.append(token)
 
         lemm_token_map[lemmatized] = mapped_tokens
+    return lemm_token_map
 
+
+if __name__ == '__main__':
+    utils.touch_file(TOKENS_PATH)
+    utils.touch_file(LEMMAS_PATH)
+    scan_nltk_packages()
+
+    tokens = set()
+    for page in os.listdir(scrapper.PAGES_PATH):
+        with open(os.path.join(scrapper.PAGES_PATH, page)) as file:
+            tokens.update(tokenize(file.read()))
+    tokens = set(tokens)
+
+    with open(TOKENS_PATH, mode='wt', encoding='utf-8') as file:
+        file.write('\n'.join(tokens))
+
+    lemm_token_map = lemmatize(tokens)
     with open(LEMMAS_PATH, mode='at', encoding='utf-8') as file:
         for key, value in lemm_token_map.items():
             file.write('{}: {}\n'.format(key, ' '.join(value)))
