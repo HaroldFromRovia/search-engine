@@ -10,6 +10,7 @@
 |---|---|
 |Задание 1| :black_square_button:  |
 |Задание 2| :black_square_button:  |
+|Задание 3| :black_square_button:  |
 
 ## Prerequisites
 * Python 3.7 и выше  
@@ -34,6 +35,14 @@
 ### Задача 2   
 Пакет *semantic*
 ```
-cd crawler
-python tokenaizer.py
+cd semantic
+python tokenizer.py
+```
+### Задача 3     
+Пакет *semantic*   
+Первый запрос идет долго (привратности питона судя по всему). Первый скрипт создает индекс файл, второй нужен для поиска.   
+```
+cd semantic
+python index.py
+python engine.py
 ```
