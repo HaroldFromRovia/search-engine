@@ -1,5 +1,5 @@
-from semantic import index, tokenizer
-from semantic.index import Index
+from semantic import tokenizer
+from semantic.index import Index, index
 
 
 def pretty(d, indent=0):
@@ -18,8 +18,8 @@ def load_index(path):
         for line in file.readlines():
             values = line.strip().split(' ')
             index_map[values[0]] = values[1:]
-    # print('Loaded context')
-    # pretty(index_map)
+    print('Loaded context')
+    pretty(index_map)
     return Index((key, value) for key, value in index_map.items())
 
 
@@ -36,6 +36,7 @@ def find(to_find, index_dict):
 
 
 if __name__ == '__main__':
+
     index_dict = load_index(index.INVERTED_INDEX_PATH)
     print("Print word to find: ", end="")
 

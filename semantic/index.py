@@ -6,8 +6,10 @@ from core import utils
 from core.settings import settings
 from crawler import scrapper
 from semantic import tokenizer
+from semantic.tokenizer import tokenize
 
 INVERTED_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'inverted_index.txt')
+TF_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'tf_index.txt')
 
 
 class Index(Mapping):
@@ -30,26 +32,46 @@ class Index(Mapping):
         return self._list[i][1]
 
 
+def termfreq(document: str, tf_dict: dict):
+    for token in tf_dict.keys():
+        if (token in document):
+            tf_dict[token] += 1
+    return tf_dict
+
+
+def create_tf():
+    tokens = set()
+    files_length = 0
+    with open(tokenizer.TOKENS_PATH, encoding="utf-8") as file:
+        for line in file.readlines():
+            tokens.add(line.strip())
+    tf_dict = dict.fromkeys(tokens, 0)
+    for page in os.listdir(scrapper.PAGES_PATH):
+        with open(os.path.join(scrapper.PAGES_PATH, page), encoding="utf-8") as file:
+            termfreq(file.read(), tf_dict)
+    return tf_dict
+
+
 def create_inv_index(lemm_token_map):
     utils.touch_file(INVERTED_INDEX_PATH)
     index = {}
     for page in os.listdir(scrapper.PAGES_PATH):
-        with open(os.path.join(scrapper.PAGES_PATH, page)) as page_file:
-            content = page_file.read()
+        with open(os.path.join(scrapper.PAGES_PATH, page), encoding='utf-8') as page_file:
+            content = set(tokenize(page_file.read()))
             for key, value in lemm_token_map.items():
                 for token in value:
-                    if token in content:
+                    if token.strip() in content:
                         index_page = index.get(key, [])
                         index_page.append(os.path.basename(page_file.name).split('.')[0])
 
-                        index[key] = index_page
+                        index[key.strip()] = index_page
     return index
 
 
 if __name__ == '__main__':
 
     lemm_token_map = {}
-    with open(tokenizer.LEMMAS_PATH) as file:
+    with open(tokenizer.LEMMAS_PATH, encoding='utf-8') as file:
         for line in file.readlines():
             values = line.strip().split(' ')
             lemm_token_map[values[0].replace(':', '')] = values[1:]
@@ -58,3 +80,8 @@ if __name__ == '__main__':
     with open(INVERTED_INDEX_PATH, mode='at', encoding='utf-8') as file:
         for key, value in index.items():
             file.write('{} {}\n'.format(key, ' '.join(value)))
+
+    tf_index = create_tf()
+    with open(TF_INDEX_PATH, mode='at', encoding='utf-8') as file:
+        for key, value in tf_index.items():
+            file.write('{} {}\n'.format(key, value))
