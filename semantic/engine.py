@@ -1,5 +1,7 @@
+import time
+
 from semantic import tokenizer
-from semantic.index import Index, index
+from semantic.index import Index, inverted_index
 
 
 def pretty(d, indent=0):
@@ -36,13 +38,16 @@ def find(to_find, index_dict):
 
 
 if __name__ == '__main__':
-
-    index_dict = load_index(index.INVERTED_INDEX_PATH)
+    start_time = time.time()
+    index_dict = load_index(inverted_index.INVERTED_INDEX_PATH)
+    print("Context loading finished in %s seconds" % (time.time() - start_time))
     print("Print word to find: ", end="")
 
     to_find = input()
     while to_find != '@exit':
+        start_time = time.time()
         match_file = find(to_find, index_dict)
+        print("Request took %s seconds" % (time.time() - start_time))
         if len(match_file):
             print(match_file)
         else:
