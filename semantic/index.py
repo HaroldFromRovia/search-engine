@@ -33,15 +33,16 @@ class Index(Mapping):
 
 
 def termfreq(document: str, tf_dict: dict):
+    content = set(tokenize(document))
     for token in tf_dict.keys():
-        if (token in document):
+        if token in content:
             tf_dict[token] += 1
     return tf_dict
 
 
 def create_tf():
+    utils.touch_file(TF_INDEX_PATH)
     tokens = set()
-    files_length = 0
     with open(tokenizer.TOKENS_PATH, encoding="utf-8") as file:
         for line in file.readlines():
             tokens.add(line.strip())
