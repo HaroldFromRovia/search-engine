@@ -85,10 +85,6 @@ if __name__ == '__main__':
             file.write('{} {}\n'.format(key, ' '.join(value)))
 
     tf_index, count = create_tf()
-    test_sum = 0
     with open(TF_INDEX_PATH, mode='at', encoding='utf-8') as file:
         for key, value in tf_index.items():
-            test_sum += float(value / count)
             file.write('{} {}\n'.format(key, float(value / count)))
-
-    print(test_sum)
