@@ -35,22 +35,24 @@ class Index(Mapping):
 def termfreq(document: str, tf_dict: dict):
     content = set(tokenize(document))
     for token in tf_dict.keys():
-        if token in content:
-            tf_dict[token] += 1
-    return tf_dict
+        if token.strip() in content:
+            tf_dict[token.strip()] += 1
+    return len(content)
 
 
 def create_tf():
     utils.touch_file(TF_INDEX_PATH)
     tokens = set()
+    total_token_count = 0
+
     with open(tokenizer.TOKENS_PATH, encoding="utf-8") as file:
         for line in file.readlines():
             tokens.add(line.strip())
     tf_dict = dict.fromkeys(tokens, 0)
     for page in os.listdir(scrapper.PAGES_PATH):
         with open(os.path.join(scrapper.PAGES_PATH, page), encoding="utf-8") as file:
-            termfreq(file.read(), tf_dict)
-    return tf_dict
+            total_token_count += termfreq(file.read(), tf_dict)
+    return tf_dict, total_token_count
 
 
 def create_inv_index(lemm_token_map):
@@ -82,7 +84,11 @@ if __name__ == '__main__':
         for key, value in index.items():
             file.write('{} {}\n'.format(key, ' '.join(value)))
 
-    tf_index = create_tf()
+    tf_index, count = create_tf()
+    test_sum = 0
     with open(TF_INDEX_PATH, mode='at', encoding='utf-8') as file:
         for key, value in tf_index.items():
-            file.write('{} {}\n'.format(key, value))
+            test_sum += float(value / count)
+            file.write('{} {}\n'.format(key, float(value / count)))
+
+    print(test_sum)
