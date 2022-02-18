@@ -8,9 +8,10 @@
 
 | Задача | Статус |
 |---|---|
-|Задание 1| :black_square_button:  |
-|Задание 2| :black_square_button:  |
-|Задание 3| :black_square_button:  |
+|Задание 1| :heavy_check_mark:  |
+|Задание 2| :heavy_check_mark:  |
+|Задание 3| :heavy_check_mark:  |
+|Задание 4| :heavy_check_mark:  |
 
 ## Prerequisites
 * Python 3.7 и выше  
