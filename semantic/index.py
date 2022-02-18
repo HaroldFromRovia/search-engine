@@ -8,7 +8,7 @@ from core import utils
 from core.settings import settings
 from crawler import scrapper
 from semantic import tokenizer
-from semantic.tokenizer import tokenize
+from semantic.tokenizer import tokenize, lemmatize
 
 INVERTED_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'inverted_index.txt')
 TF_IDF_TOKEN_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'tf-idf_token_index.txt')
@@ -55,6 +55,24 @@ def termfreq(document: str, tf_dict: dict):
         if token.strip() in content:
             tf_dict[token.strip()] += 1
     return len(content)
+
+
+def termfreq_for_lemmas(document: str, tf_dict: dict):
+    lemmas = lemmatize(set(tokenize(document))).keys()
+    for token in tf_dict.keys():
+        if token.strip() in lemmas:
+            tf_dict[token.strip()] += 1
+    return len(lemmas)
+
+
+def create_tf_for_lemmas(lemmas: set):
+    total_lemma_count = 0
+
+    tf_dict = dict.fromkeys(lemmas, 0)
+    for page in os.listdir(scrapper.PAGES_PATH):
+        with open(os.path.join(scrapper.PAGES_PATH, page), encoding="utf-8") as file:
+            total_lemma_count += termfreq_for_lemmas(file.read(), tf_dict)
+    return tf_dict, total_lemma_count
 
 
 def create_tf(tokens: set):
@@ -117,7 +135,7 @@ if __name__ == '__main__':
             file.write('{} {}\n'.format(key, ' '.join(value)))
 
     tf_token_index, tf_token_count = create_tf(tokens)
-    tf_lemma_map, tf_lemma_count = create_tf(set(lemm_token_map.keys()))
+    tf_lemma_map, tf_lemma_count = create_tf_for_lemmas(set(lemm_token_map.keys()))
 
     token_pages_map = extract_tokens(tokens)
     idf_token_map = compute_idf(token_pages_map, settings.PAGES_COUNT)
@@ -129,7 +147,6 @@ if __name__ == '__main__':
 
     with open(TF_IDF_LEMMA_INDEX_PATH, mode='at', encoding='utf-8') as file:
         for key, value in tf_lemma_map.items():
-            if value != 0:
-                file.write('{} {} {}\n'.format(key, idf_lemma_map.get(key), idf_lemma_map.get(key) * value))
+            file.write('{} {} {}\n'.format(key, idf_lemma_map.get(key), idf_lemma_map.get(key) * value))
 
     print("--- %s seconds ---" % (time.time() - start_time))
