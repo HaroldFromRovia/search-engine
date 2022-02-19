@@ -46,7 +46,7 @@ if __name__ == '__main__':
     utils.init_folders(PAGES_PATH)
     utils.touch_file(INDEX_FILE)
 
-    with open(INDEX_FILE, 'w') as file:
+    with open(INDEX_FILE, 'w', encoding='utf-8') as file:
         for i in range(1000):
             response = requests.get(settings.BASE_URL.format(settings.BASE_ITERATION + i), allow_redirects=True)
 
