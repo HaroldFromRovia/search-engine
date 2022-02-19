@@ -14,6 +14,7 @@ INVERTED_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'inverted_index.txt')
 TF_IDF_TOKEN_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'tf-idf_token_index.txt')
 TF_IDF_LEMMA_INDEX_PATH = os.path.join(settings.RESOURCE_PATH, 'tf-idf_lemma_index.txt')
 TF_IDF_LEMMA_INDEX_SEPARATED_PATH = os.path.join(settings.RESOURCE_PATH, 'tf-idf_lemma_index_separated.txt')
+LEMMAS_PATH = os.path.join(settings.RESOURCE_PATH, 'lemmas.txt')
 
 
 class Index(Mapping):
@@ -127,6 +128,18 @@ def extract_tokens(tokens):
     return index
 
 
+
+def get_unique_lemmas():
+    file = open(LEMMAS_PATH)
+
+    lemmas = set()
+
+    for lemma in file:
+        lemmas.add(lemma.split(':')[0])
+
+    return lemmas
+
+
 if __name__ == '__main__':
     start_time = time.time()
     create_files()
@@ -168,6 +181,8 @@ if __name__ == '__main__':
     with open(TF_IDF_LEMMA_INDEX_SEPARATED_PATH, mode='at', encoding='utf-8') as file:
         for document, lemmas in tf_lemma_map_separated.items():
             for lemma, tf in lemmas.items():
+                a = tf
+                b = idf_lemma_map.get(key)
                 file.write('{} {} {}\n'.format(document, lemma, idf_lemma_map.get(key) * tf))
 
     print("--- %s seconds ---" % (time.time() - start_time))
