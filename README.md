@@ -12,6 +12,7 @@
 |Задание 2| :heavy_check_mark:  |
 |Задание 3| :heavy_check_mark:  |
 |Задание 4| :heavy_check_mark:  |
+|Задание 4| :black_square_button:  |
 
 ## Prerequisites
 * Python 3.7 и выше  
